@@ -1,0 +1,25 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lovely.baby.online.mall.backstage.dao.mybatis.OrderDao">
+    <sql id="fields">
+        id,
+        status,
+        username,
+        create_time as createTime,
+        update_time as updateTime
+    </sql>
+
+    <select id="query" resultType="Order">
+        select
+        <include refid="fields"/>
+        from orders
+        limit #{limit}
+        offset #{offset}
+    </select>
+
+    <update id="update">
+        update orders
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+</mapper>

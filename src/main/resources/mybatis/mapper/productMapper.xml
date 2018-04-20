@@ -1,0 +1,66 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lovely.baby.online.mall.backstage.dao.mybatis.ProductDao">
+
+    <sql id="fields">
+        id,
+        name,
+        price,
+        hot,
+        category_id as categoryId,
+        available,
+        create_time as createTime,
+        update_time as updateTime
+    </sql>
+
+    <select id="query" resultType="Product">
+        select
+        <include refid="fields"/>
+        from product
+        limit #{limit}
+        offset #{offset}
+    </select>
+
+    <select id="queryByIds" resultType="Product">
+        select
+        <include refid="fields"/>
+        from product
+        <where>
+            <if test="ids !=null and !ids.isEmpty()">
+                id in
+                <foreach collection="ids" item="id" open="(" separator=","
+                         close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="queryProduct" resultType="Product">
+        select
+        <include refid="fields"/>
+        from product
+        where id = #{id}
+    </select>
+
+    <insert id="save" parameterType="Product">
+        insert into product (name,price,hot,category_id,available)
+        values(#{name},#{price},#{hot},#{categoryId},#{available})
+    </insert>
+
+    <delete id="delete">
+        delete from product where id=#{id}
+    </delete>
+
+    <update id="update">
+        update product
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="hot != null">hot = #{hot},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="available != null">available = #{available},</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+</mapper>
