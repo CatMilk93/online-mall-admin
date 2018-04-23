@@ -7,7 +7,7 @@ public class RequestDataHolder {
 
     private final ThreadLocal<String> ip = ThreadLocalCleaner.register(new ThreadLocal<>());
 
-    private final ThreadLocal<String> name = ThreadLocalCleaner.register(new ThreadLocal<>());
+    private final ThreadLocal<String> username = ThreadLocalCleaner.register(new ThreadLocal<>());
 
     /**
      * 获取ip
@@ -32,8 +32,8 @@ public class RequestDataHolder {
      *
      * @return 请求的IP
      */
-    public String getName() {
-        return name.get();
+    public String getUsername() {
+        return username.get();
     }
 
     /**
@@ -41,7 +41,11 @@ public class RequestDataHolder {
      *
      * @param _username 请求的IP
      */
-    public void setName(String _username) {
-        name.set(_username);
+    public void setUsername(String _username) {
+        username.set(_username);
+    }
+
+    public void removeUsername() {
+        username.remove();
     }
 }

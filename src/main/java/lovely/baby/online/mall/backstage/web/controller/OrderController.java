@@ -18,23 +18,24 @@ import lovely.baby.online.mall.backstage.util.RequestDataHolder;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("background")
 public class OrderController {
 
     private final OrderService orderService;
 
     private final OrderItemViewService orderItemViewService;
 
-    @RequestMapping("/background/order")
+    @RequestMapping("order")
     public ModelAndView backgroundOrder(@RequestParam(defaultValue = "1") int page) {
         List<Order> orders = this.orderService.query(page);
         ModelAndView modelAndView = new ModelAndView("background_order");
         modelAndView.addObject("orders", orders);
         modelAndView.addObject("nextPage", page + 1);
-        modelAndView.addObject("name", RequestDataHolder.getName());
+        modelAndView.addObject("name", RequestDataHolder.getUsername());
         return modelAndView;
     }
 
-    @RequestMapping("/background/order_item")
+    @RequestMapping("order_item")
     public ModelAndView backgroundOrderItem(int id, String username) {
         List<OrderItemView> orderItemViews = orderItemViewService.query(id);
         ModelAndView modelAndView = new ModelAndView("order_item");
@@ -44,14 +45,14 @@ public class OrderController {
         return modelAndView;
     }
 
-    @RequestMapping("/background/updateOrderEntry")
+    @RequestMapping("updateOrderEntry")
     public ModelAndView backgroundOrderUpdateEntry(int id) {
         ModelAndView modelAndView = new ModelAndView("order_update");
         modelAndView.addObject("id", id);
         return modelAndView;
     }
 
-    @RequestMapping("/background/updateOrder")
+    @RequestMapping("updateOrder")
     public String backgroundOrderUpdate(int status, int id) {
         orderService.updateStatus(HasCodeUtils.getInstance(status, OrderStatus.class), id);
         return "redirect:/background/order";

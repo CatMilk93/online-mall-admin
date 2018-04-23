@@ -14,45 +14,46 @@ import lovely.baby.online.mall.backstage.util.RequestDataHolder;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("background")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @RequestMapping("/background/category")
+    @RequestMapping("category")
     public ModelAndView backgroundCategory(@RequestParam(defaultValue = "1") int page) {
         List<Category> categories = this.categoryService.query(page);
         ModelAndView modelAndView = new ModelAndView("background_category");
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("nextPage", page + 1);
-        modelAndView.addObject("name", RequestDataHolder.getName());
+        modelAndView.addObject("name", RequestDataHolder.getUsername());
         return modelAndView;
     }
 
-    @RequestMapping("/background/deleteCategory")
+    @RequestMapping("deleteCategory")
     public String deleteCategory(int id) {
         categoryService.deleteById(id);
         return "redirect:/background/category";
     }
 
-    @RequestMapping("/background/saveCategoryEnter")
+    @RequestMapping("saveCategoryEnter")
     public String saveEnter() {
         return "category_save";
     }
 
-    @RequestMapping("/background/saveCategory")
+    @RequestMapping("saveCategory")
     public String saveCategory(String name) {
         categoryService.save(name);
         return "redirect:/background/category";
     }
 
-    @RequestMapping("/background/updateCategoryEntry")
+    @RequestMapping("updateCategoryEntry")
     public ModelAndView updateEnter(int id) {
         ModelAndView modelAndView = new ModelAndView("category_update");
         modelAndView.addObject("id", id);
         return modelAndView;
     }
 
-    @RequestMapping("/background/updateCategory")
+    @RequestMapping("updateCategory")
     public String updateCategory(String name, int id) {
         categoryService.update(name, id);
         return "redirect:/background/category";

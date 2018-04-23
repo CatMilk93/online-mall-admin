@@ -16,29 +16,30 @@ import lovely.baby.online.mall.backstage.util.RequestDataHolder;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("background")
 public class ProductController {
 
     private final ProductService productService;
 
     private final CategoryService categoryService;
 
-    @RequestMapping("/background/product")
+    @RequestMapping("product")
     public ModelAndView backgroundProduct(@RequestParam(defaultValue = "1") int page) {
         List<Product> products = this.productService.query(page);
         ModelAndView modelAndView = new ModelAndView("background_product");
         modelAndView.addObject("products", products);
         modelAndView.addObject("nextPage", page + 1);
-        modelAndView.addObject("name", RequestDataHolder.getName());
+        modelAndView.addObject("name", RequestDataHolder.getUsername());
         return modelAndView;
     }
 
-    @RequestMapping("/background/deleteProduct")
+    @RequestMapping("deleteProduct")
     public String deleteProduct(int id) {
         productService.deleteById(id);
         return "redirect:/background/product";
     }
 
-    @RequestMapping("/background/saveProductEnter")
+    @RequestMapping("saveProductEnter")
     public ModelAndView saveEnter() {
         List<Category> categories = categoryService.queryAll();
         ModelAndView modelAndView = new ModelAndView("product_save");
@@ -46,13 +47,13 @@ public class ProductController {
         return modelAndView;
     }
 
-    @RequestMapping("/background/saveProduct")
+    @RequestMapping("saveProduct")
     public String saveProduct(Product product) {
         productService.save(product);
         return "redirect:/background/product";
     }
 
-    @RequestMapping("/background/updateProductEntry")
+    @RequestMapping("updateProductEntry")
     public ModelAndView updateEnter(int id) {
         List<Category> categories = categoryService.queryAll();
         Product product = productService.queryProduct(id);
@@ -63,7 +64,7 @@ public class ProductController {
         return modelAndView;
     }
 
-    @RequestMapping("/background/updateProduct")
+    @RequestMapping("updateProduct")
     public String updateProduct(Product product, int id) {
         productService.update(product, id);
         return "redirect:/background/product";

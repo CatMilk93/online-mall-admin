@@ -1,10 +1,12 @@
 package lovely.baby.online.mall.backstage.util;
 
+import lombok.experimental.UtilityClass;
 import lovely.baby.online.mall.backstage.model.HasCode;
 
+@UtilityClass
 public class HasCodeUtils {
 
-    public static <CodeType, EnumType extends Enum<EnumType> & HasCode<CodeType>> EnumType getInstance(CodeType code,
+    public <CodeType, EnumType extends Enum<EnumType> & HasCode<CodeType>> EnumType getInstance(CodeType code,
             Class<EnumType> enumClass) {
         for (EnumType element : enumClass.getEnumConstants()) {
             if (element.getCode().equals(code)) {
